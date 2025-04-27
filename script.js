@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Konami code epic mode
-  const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight'];
+  const konami = ['b','a'];
   let idx=0;
   document.addEventListener('keydown', e => {
     if (e.key === konami[idx]) { idx++; if (idx===konami.length) { cookKonami(); idx=0; } }
