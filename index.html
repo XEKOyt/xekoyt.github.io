@@ -48,23 +48,87 @@
         <!-- Menu Page -->
         <div class="page active" id="menu">
             <div class="filter-container">
-                <h3>Filter Menu</h3>
-                <div class="filter-group categories">
-                  <strong>Category:</strong><br>
-                  <label><input type="checkbox" value="Main Dishes" checked> Main Dishes</label>
-                  <label><input type="checkbox" value="Appetizers" checked> Appetizers</label>
-                  <label><input type="checkbox" value="Desserts" checked> Desserts</label>
-                  <label><input type="checkbox" value="Side Dishes" checked> Side Dishes</label>
-                  <label><input type="checkbox" value="Original Drinks" checked> Drinks</label>
-                  <label><input type="checkbox" value="El Morjene Couscous" checked> Bestsellers</label>
+                <h3>Filter Our Meme-nu</h3>
+                
+                <div class="filter-tabs">
+                  <button class="filter-tab active" data-filter="categories">Categories</button>
+                  <button class="filter-tab" data-filter="price">Price Range</button>
+                  <button class="filter-tab" data-filter="special">Special Options</button>
                 </div>
-                <div class="filter-group price-range">
-                  <strong>Price Range:</strong><br>
-                  <input type="number" id="min-price" placeholder="Min $" step="0.01"> -
-                  <input type="number" id="max-price" placeholder="Max $" step="0.01">
+                
+                <div class="filter-panels">
+                  <div class="filter-panel active" id="categories-panel">
+                    <div class="checkbox-grid">
+                      <label class="fancy-checkbox">
+                        <input type="checkbox" value="Main Dishes" checked>
+                        <span class="checkmark"></span>
+                        <span class="label-text">🍲 Main Dishes</span>
+                      </label>
+                      <label class="fancy-checkbox">
+                        <input type="checkbox" value="Appetizers" checked>
+                        <span class="checkmark"></span>
+                        <span class="label-text">🥕 Appetizers</span>
+                      </label>
+                      <label class="fancy-checkbox">
+                        <input type="checkbox" value="Desserts" checked>
+                        <span class="checkmark"></span>
+                        <span class="label-text">🍰 Desserts</span>
+                      </label>
+                      <label class="fancy-checkbox">
+                        <input type="checkbox" value="Side Dishes" checked>
+                        <span class="checkmark"></span>
+                        <span class="label-text">🍟 Side Dishes</span>
+                      </label>
+                      <label class="fancy-checkbox">
+                        <input type="checkbox" value="Original Drinks" checked>
+                        <span class="checkmark"></span>
+                        <span class="label-text">🥤 Drinks</span>
+                      </label>
+                    </div>
+                  </div>
+                  
+                  <div class="filter-panel" id="price-panel">
+                    <div class="price-slider-container">
+                      <div class="price-inputs">
+                        <div class="price-field">
+                          <label for="min-price">Min Price</label>
+                          <div class="input-wrapper">
+                            <span class="currency">$</span>
+                            <input type="number" id="min-price" placeholder="0" min="0" step="0.01">
+                          </div>
+                        </div>
+                        <div class="price-separator">to</div>
+                        <div class="price-field">
+                          <label for="max-price">Max Price</label>
+                          <div class="input-wrapper">
+                            <span class="currency">$</span>
+                            <input type="number" id="max-price" placeholder="20" min="0" step="0.01">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="filter-panel" id="special-panel">
+                    <div class="toggle-options">
+                      <label class="toggle-switch">
+                        <input type="checkbox" id="bestseller-only">
+                        <span class="toggle-slider"></span>
+                        <span class="toggle-text">Bestsellers Only</span>
+                      </label>
+                      <label class="toggle-switch">
+                        <input type="checkbox" id="sort-price-asc">
+                        <span class="toggle-slider"></span>
+                        <span class="toggle-text">Sort by Price (Low to High)</span>
+                      </label>
+                    </div>
+                  </div>
                 </div>
-                <button id="apply-filters">Apply Filters</button>
-                <button id="reset-filters">Reset</button>
+                
+                <div class="filter-actions">
+                  <button id="apply-filters" class="apply-btn">Apply Filters</button>
+                  <button id="reset-filters" class="reset-btn">Reset All</button>
+                </div>
               </div>
           <div class="menu-section">
             <h2>🍲 Main Dishes</h2>
@@ -104,6 +168,12 @@
               <div class="menu-item-desc">🦶🦶</div>
               <div class="menu-item-price">$14.99</div>
             </div>
+          </div>
+
+          <div class="menu-item">
+            <div class="menu-item-name">🔥 Steve's lava chicken</div>
+            <div class="menu-item-desc">A whole chicken but very spicy like very spicy</div>
+            <div class="menu-item-price">$15.99</div>
           </div>
           
           <div class="menu-section">
@@ -156,7 +226,7 @@
             <div class="menu-item">
               <div class="menu-item-name">🍟 Fahrrad Fries</div>
               <div class="menu-item-desc">"Far-out" fries that are totally rad</div>
-              <div class="menu-item-price">$4.99</div>
+              <div class="menu-item-price">$1.99</div>
             </div>
           </div>
           
@@ -166,19 +236,19 @@
             <div class="menu-item">
               <div class="menu-item-name">💧 Bo'o' Wo'o'</div>
               <div class="menu-item-desc">Water with a British accent</div>
-              <div class="menu-item-price">$2.99</div>
+              <div class="menu-item-price">$0.10</div>
             </div>
             
             <div class="menu-item">
               <div class="menu-item-name">🥛 G.O.A.T.E.D Milk</div>
               <div class="menu-item-desc">Greatest Of All Time Extra Delicious milk</div>
-              <div class="menu-item-price">$3.99</div>
+              <div class="menu-item-price">$0.99</div>
             </div>
             
             <div class="menu-item">
               <div class="menu-item-name">☕ Balerina Capuchina</div>
               <div class="menu-item-desc">Coffee that makes you twirl</div>
-              <div class="menu-item-price">$5.99</div>
+              <div class="menu-item-price">$2.99</div>
             </div>
             
             <div class="menu-item">
