@@ -3,8 +3,51 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>The Meme Seller - Meme-flavored Food Truck</title>
+  <title>The Meme Seller</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Drawer styles */
+    .filter-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 320px;
+      height: 100vh;
+      transform: translateX(100%);
+      transition: transform var(--transition-standard);
+      background: var(--light-bg);
+      box-shadow: var(--shadow-lg);
+      z-index: 999;
+      overflow-y: auto;
+    }
+    .filter-drawer.open {
+      transform: translateX(0);
+    }
+    #toggle-filters {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 12px 16px;
+      border-radius: var(--border-radius-md);
+      cursor: pointer;
+      box-shadow: var(--shadow-md);
+      z-index: 1000;
+      transition: var(--transition-standard);
+    }
+    .close-filters {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: none;
+      border: none;
+      font-size: 2rem;
+      color: var(--text-color);
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
   <!-- Audio elements -->
@@ -22,6 +65,8 @@
   <audio id="sound5" src="https://www.myinstants.com/media/sounds/tuco-get-out.mp3"></audio>
   <audio id="sound6" src="https://www.myinstants.com/media/sounds/french-meme-song.mp3"></audio>
   <audio id="sound7" src="https://www.myinstants.com/media/sounds/rizz-sound-effect.mp3"></audio>
+
+  <button id="toggle-filters" aria-expanded="false">Show Filters</button>
 
   <div class="container">
     <header>
@@ -43,93 +88,92 @@
       </div>
     </div>
 
-    <div class="content-container">
-      <div class="content">
-        <!-- Menu Page -->
-        <div class="page active" id="menu">
-            <div class="filter-container">
-                <h3>Filter Our Meme-nu</h3>
-                
-                <div class="filter-tabs">
-                  <button class="filter-tab active" data-filter="categories">Categories</button>
-                  <button class="filter-tab" data-filter="price">Price Range</button>
-                  <button class="filter-tab" data-filter="special">Special Options</button>
-                </div>
-                
-                <div class="filter-panels">
-                  <div class="filter-panel active" id="categories-panel">
-                    <div class="checkbox-grid">
-                      <label class="fancy-checkbox">
-                        <input type="checkbox" value="Main Dishes" checked>
-                        <span class="checkmark"></span>
-                        <span class="label-text">🍲 Main Dishes</span>
-                      </label>
-                      <label class="fancy-checkbox">
-                        <input type="checkbox" value="Appetizers" checked>
-                        <span class="checkmark"></span>
-                        <span class="label-text">🥕 Appetizers</span>
-                      </label>
-                      <label class="fancy-checkbox">
-                        <input type="checkbox" value="Desserts" checked>
-                        <span class="checkmark"></span>
-                        <span class="label-text">🍰 Desserts</span>
-                      </label>
-                      <label class="fancy-checkbox">
-                        <input type="checkbox" value="Side Dishes" checked>
-                        <span class="checkmark"></span>
-                        <span class="label-text">🍟 Side Dishes</span>
-                      </label>
-                      <label class="fancy-checkbox">
-                        <input type="checkbox" value="Original Drinks" checked>
-                        <span class="checkmark"></span>
-                        <span class="label-text">🥤 Drinks</span>
-                      </label>
-                    </div>
+    <div class="container">
+      <!-- Menu Page -->
+      <div class="page active" id="menu">
+  
+        <!-- Off-canvas filter drawer -->
+        <div id="filter-drawer" class="filter-drawer">
+          <button id="close-filters" class="close-filters" aria-label="Close Filters">&times;</button>
+          <div class="filter-container">
+            <h3>Filter Our Meme-nu</h3>
+            <div class="filter-tabs">
+              <button class="filter-tab active" data-filter="categories">Categories</button>
+              <button class="filter-tab" data-filter="price">Price Range</button>
+              <button class="filter-tab" data-filter="special">Special Options</button>
+            </div>
+            <div class="filter-panels">
+              <div class="filter-panel active" id="categories-panel">
+                <div class="checkbox-grid">
+                  <label class="fancy-checkbox">
+                    <input type="checkbox" value="Main Dishes" checked>
+                    <span class="checkmark"></span>
+                    <span class="label-text">🍲 Main Dishes</span>
+                  </label>
+                  <label class="fancy-checkbox">
+                    <input type="checkbox" value="Appetizers" checked>
+                    <span class="checkmark"></span>
+                    <span class="label-text">🥕 Appetizers</span>
+                  </label>
+                  <label class="fancy-checkbox">
+                    <input type="checkbox" value="Desserts" checked>
+                    <span class="checkmark"></span>
+                    <span class="label-text">🍰 Desserts</span>
+                  </label>
+                  <label class="fancy-checkbox">
+                    <input type="checkbox" value="Side Dishes" checked>
+                    <span class="checkmark"></span>
+                    <span class="label-text">🍟 Side Dishes</span>
+                  </label>
+                  <label class="fancy-checkbox">
+                    <input type="checkbox" value="Original Drinks" checked>
+                    <span class="checkmark"></span>
+                    <span class="label-text">🥤 Drinks</span>
                   </div>
-                  
-                  <div class="filter-panel" id="price-panel">
-                    <div class="price-slider-container">
-                      <div class="price-inputs">
-                        <div class="price-field">
-                          <label for="min-price">Min Price</label>
-                          <div class="input-wrapper">
-                            <span class="currency">$</span>
-                            <input type="number" id="min-price" placeholder="0" min="0" step="0.01">
-                          </div>
+                </div>
+                <div class="filter-panel" id="price-panel">
+                  <div class="price-slider-container">
+                    <div class="price-inputs">
+                      <div class="price-field">
+                        <label for="min-price">Min Price</label>
+                        <div class="input-wrapper">
+                          <span class="currency">$</span>
+                          <input type="number" id="min-price" placeholder="0" min="0" step="0.01">
                         </div>
-                        <div class="price-separator">to</div>
-                        <div class="price-field">
-                          <label for="max-price">Max Price</label>
-                          <div class="input-wrapper">
-                            <span class="currency">$</span>
-                            <input type="number" id="max-price" placeholder="20" min="0" step="0.01">
-                          </div>
+                      </div>
+                      <div class="price-separator">to</div>
+                      <div class="price-field">
+                        <label for="max-price">Max Price</label>
+                        <div class="input-wrapper">
+                          <span class="currency">$</span>
+                          <input type="number" id="max-price" placeholder="20" min="0" step="0.01">
                         </div>
                       </div>
                     </div>
                   </div>
-                  
-                  <div class="filter-panel" id="special-panel">
-                    <div class="toggle-options">
-                      <label class="toggle-switch">
-                        <input type="checkbox" id="bestseller-only">
-                        <span class="toggle-slider"></span>
-                        <span class="toggle-text">Bestsellers Only</span>
-                      </label>
-                      <label class="toggle-switch">
-                        <input type="checkbox" id="sort-price-asc">
-                        <span class="toggle-slider"></span>
-                        <span class="toggle-text">Sort by Price (Low to High)</span>
-                      </label>
-                    </div>
+                </div>
+                <div class="filter-panel" id="special-panel">
+                  <div class="toggle-options">
+                    <label class="toggle-switch">
+                      <input type="checkbox" id="bestseller-only">
+                      <span class="toggle-slider"></span>
+                      <span class="toggle-text">Bestsellers Only</span>
+                    </label>
+                    <label class="toggle-switch">
+                      <input type="checkbox" id="sort-price-asc">
+                      <span class="toggle-slider"></span>
+                      <span class="toggle-text">Sort by Price (Low to High)</span>
+                    </label>
                   </div>
                 </div>
-                
-                <div class="filter-actions">
-                  <button id="apply-filters" class="apply-btn">Apply Filters</button>
-                  <button id="reset-filters" class="reset-btn">Reset All</button>
-                </div>
               </div>
+              <div class="filter-actions">
+                <button id="apply-filters" class="apply-btn">Apply Filters</button>
+                <button id="reset-filters" class="reset-btn">Reset All</button>
+              </div>
+            </div>
+          </div>
+
           <div class="menu-section">
             <h2>🍲 Main Dishes</h2>
             
@@ -159,21 +203,21 @@
             
             <div class="menu-item">
               <div class="menu-item-name">🍬 The Sweet Sacrifice</div>
-              <div class="menu-item-desc">Worth every calories (just alot of sugar (you'll probably get diabity from that))</div>
+              <div class="menu-item-desc">Worth every calories (just alot of sugar)</div>
               <div class="menu-item-price">$6.99</div>
             </div>
             
             <div class="menu-item bestseller">
               <div class="menu-item-name">🥘 El Morjene Couscous</div>
-              <div class="menu-item-desc">🦶🦶</div>
+              <div class="menu-item-desc">Couscous with el Morjene</div>
               <div class="menu-item-price">$14.99</div>
             </div>
-          </div>
-
-          <div class="menu-item">
-            <div class="menu-item-name">🔥 Steve's lava chicken</div>
-            <div class="menu-item-desc">A whole chicken but very spicy like very spicy</div>
-            <div class="menu-item-price">$15.99</div>
+            
+            <div class="menu-item">
+              <div class="menu-item-name">🔥 Steve's lava chicken</div>
+              <div class="menu-item-desc">A whole chicken but very spicy like very spicy</div>
+              <div class="menu-item-price">$15.99</div>
+            </div>
           </div>
           
           <div class="menu-section">
@@ -225,7 +269,7 @@
             
             <div class="menu-item">
               <div class="menu-item-name">🍟 Fahrrad Fries</div>
-              <div class="menu-item-desc">"Far-out" fries that are totally rad</div>
+              <div class="menu-item-desc">"Far-out" fries that are just fries yeah.. french fries..</div>
               <div class="menu-item-price">$1.99</div>
             </div>
           </div>
@@ -235,7 +279,7 @@
             
             <div class="menu-item">
               <div class="menu-item-name">💧 Bo'o' Wo'o'</div>
-              <div class="menu-item-desc">Water with a British accent</div>
+              <div class="menu-item-desc">Water coming from the uk</div>
               <div class="menu-item-price">$0.10</div>
             </div>
             
@@ -270,7 +314,7 @@
                     <div class="reviewer-date">May 4th, 2024</div>
                   </div>
                 </div>
-                <div class="review-rating">⭐⭐⭐⭐⭐</div>
+                <div class="review-rating">⭐⭐⭐⭐⭐/5</div>
                 <div class="review-text">Nice food, may the 4th be with you</div>
               </div>
               
@@ -282,7 +326,7 @@
                     <div class="reviewer-date">April 1, 2025</div>
                   </div>
                 </div>
-                <div class="review-rating">⭐⭐⭐⭐⭐</div>
+                <div class="review-rating">⭐⭐⭐⭐⭐/5</div>
                 <div class="review-text">Never gonna give these Rick-rolls up! Never gonna let these flavors down!</div>
               </div>
               
@@ -294,8 +338,32 @@
                     <div class="reviewer-date">Febuary 30th, 2026</div>
                   </div>
                 </div>
-                <div class="review-rating">⭐⭐⭐⭐</div>
+                <div class="review-rating">⭐⭐⭐⭐/5</div>
                 <div class="review-text">I love this food sadly I didn't got salt in my Kakarot-o, still good tho!</div>
+              </div>
+
+              <div class="review-card">
+                <div class="reviewer">
+                  <img src="https://cdn.discordapp.com/avatars/809507675913584720/beb4beb81625258e494ae94ec6d6b396.webp?size=1024&format=webp&width=461&height=461" alt="Reviewer" class="reviewer-img">
+                  <div class="reviewer-info">
+                    <div class="reviewer-name">Y-Skull</div>
+                    <div class="reviewer-date">June 9th, 2048</div>
+                  </div>
+                </div>
+                <div class="review-rating">⭐⭐⭐⭐⭐⭐⭐⭐/5</div>
+                <div class="review-text">I like kids in the basements, I liked the Fruli Frula with the cream 😋</div>
+              </div>
+              
+              <div class="review-card">
+                <div class="reviewer">
+                  <img src="https://cdn.discordapp.com/avatars/1100313870674972754/b4141e308105dfd0daebe1928b7f0d82.webp?size=1024&format=webp&width=461&height=461" alt="Reviewer" class="reviewer-img">
+                  <div class="reviewer-info">
+                    <div class="reviewer-name">TFZ</div>
+                    <div class="reviewer-date">April 28th, 2025</div>
+                  </div>
+                </div>
+                <div class="review-rating">⭐⭐⭐⭐⭐/5</div>
+                <div class="review-text">It's absolute cinema. Just fire, the waiter are incredible the food is delicious so, yeah, it's over 9000</div>
               </div>
             </div>
           </div>
@@ -305,7 +373,7 @@
         <div class="page" id="about">
           <h2>Our Meme-tastic Story</h2>
           <p>What happens when a group of friends are hungry, broke, and obsessed with memes? The Meme Seller food truck is born!</p>
-          
+          <br>
           <div class="story-script">
             <h3>How It Started</h3>
             <p>Simple. Because we were hungry…</p>
@@ -316,7 +384,7 @@
             <p>Anyways..</p>
             <p>Welcome to The Meme Seller. We feed your hunger... and your brainroted brain.</p>
           </div>
-          
+          <br>
           <h3>Meet Our Meme Team (for real)</h3>
           <div class="staff-container">
             <div class="staff-member">
@@ -336,54 +404,87 @@
             <div class="staff-member">
               <img src="https://cdn.discordapp.com/avatars/1100313870674972754/b4141e308105dfd0daebe1928b7f0d82.webp?size=1024&format=webp&width=461&height=461" alt="Toyib" class="staff-image">
               <div class="staff-name">Toyib</div>
-              <div class="staff-role">Dessert Memelord</div>
-              <div class="staff-bio">Made a good part of the menu, first concept of the price and a good part of the script.</div>
+              <div class="staff-role">Goated Graphics designer.</div>
+              <div class="staff-bio">Made a good part of the menu, first concept of the price and a good part of the script and the questions of the quizz.</div>
             </div>
             
             <div class="staff-member">
               <img src="https://cdn.discordapp.com/avatars/926149778197332049/7fd08f31c053ad3a6085304350ebd766.webp?size=1024&format=webp&width=461&height=461" alt="Marin" class="staff-image">
               <div class="staff-name">Marin</div>
-              <div class="staff-role">Meme Mixologist</div>
-              <div class="staff-bio">Made some of the art and some ideas.</div>
+              <div class="staff-role">Eeper</div>
+              <div class="staff-bio">...</div>
             </div>
           </div>
         </div>
         
-        <!-- Gallery Page -->
-        <div class="page" id="gallery">
-          <h2>Meme Food Gallery</h2>
-          <p>Feast your eyes on our most epic creations! Click on any image to enlarge.</p>
-          
-          <div class="gallery-container">
-            <div class="gallery-item">
-              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJrlf9s3Mk5LDXt3n81nGyBOamRhd4AGj_kg&s" alt="The cake is a">
-            </div>
-            <div class="gallery-item">
-              <img src="elmorjenecouscous.jpg" alt="El Morjene Couscous">
-            </div>
-            <div class="gallery-item">
-              <img src="the high ground.jpg" alt="The High Ground">
-            </div>
-            <div class="gallery-item">
-              <img src="bananacat.jpg" alt="Banana Cat">
-            </div>
-            <div class="gallery-item">
-              <img src="enderpearl.png" alt="Ender Pearl">
-            </div>
-            <div class="gallery-item">
-              <img src="https://i.ytimg.com/vi/9lNZ_Rnr7Jc/maxresdefault.jpg" alt="Bad apple">
-            </div>
-          </div>
-          
-          <!-- Modal for enlarged images -->
-          <div class="modal" id="gallery-modal">
-            <span class="close-modal">&times;</span>
-            <div class="modal-content">
-              <img id="modal-img" src="">
-              <video id="modal-video" controls style="display: none;"></video>
-            </div>
-          </div>
-        </div>
+<!-- Gallery Page -->
+<div class="page" id="gallery">
+  <h2>Meme Food Gallery</h2>
+  <p>Feast your eyes on our most epic creations! Click on any image or video to enlarge.</p>
+  
+  <div class="gallery-container">
+    <!-- Image items -->
+    <div class="gallery-item">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJrlf9s3Mk5LDXt3n81nGyBOamRhd4AGj_kg&s" alt="The cake is a">
+      <div class="item-overlay">
+        <span class="item-title">The Cake Is a Lie</span>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <img src="elmorjenecouscous.jpg" alt="El Morjene Couscous">
+      <div class="item-overlay">
+        <span class="item-title">El Morjene Couscous</span>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <img src="the high ground.jpg" alt="The High Ground">
+      <div class="item-overlay">
+        <span class="item-title">The High Ground</span>
+      </div>
+    </div>
+    
+<!-- Video item (corrected) -->
+<div class="gallery-item video-item">
+  <video poster="https://i.ytimg.com/vi/9lNZ_Rnr7Jc/maxresdefault.jpg" preload="metadata">
+    <source src="【東方】Bad Apple!! ＰＶ【影絵】 - kasidid2 (360p, h264).mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <div class="item-overlay">
+    <span class="item-title">Bad Apple</span>
+  </div>
+  <div class="video-icon">▶️</div>
+</div>
+    
+    <!-- More items -->
+    <div class="gallery-item">
+      <img src="bananacat.jpg" alt="Banana Cat">
+      <div class="item-overlay">
+        <span class="item-title">Banana Cat</span>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <img src="enderpearl.png" alt="Ender Pearl">
+      <div class="item-overlay">
+        <span class="item-title">Ender Pearl</span>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://i.ytimg.com/vi/9lNZ_Rnr7Jc/maxresdefault.jpg" alt="Bad apple">
+      <div class="item-overlay">
+        <span class="item-title">Bad Apple</span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Improved Modal for enlarged images and videos -->
+  <div class="modal" id="gallery-modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <img id="modal-img" src="">
+      <video id="modal-video" controls style="display: none;"></video>
+    </div>
+  </div>
+</div>
         
         <!-- Location Page -->
         <div class="page" id="location">
@@ -412,10 +513,6 @@
                 <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="social-link">📱</a>
               </div>
             </div>
-          </div>
-          
-          <div class="map-container">
-            <img src="30147490-f6f0-42d4-bee4-230929e7226b.png" alt="Map of food truck locations">
           </div>
         </div>
         
@@ -483,8 +580,28 @@
   <div class="theme-switch" id="theme-switch">🌙</div>
   
   <!-- Meme toast -->
-  <div class="meme-toast" id="meme-toast"></div>
-  
+<!-- new -->
+  <div id="meme-toast" class="toast-notification"></div>
+
   <script src="script.js"></script>
+  <script src="scriptt.js"></script>
+
+  <script>
+    // Drawer toggle logic
+    const toggleBtn = document.getElementById('toggle-filters');
+    const drawer    = document.getElementById('filter-drawer');
+    const closeBtn  = document.getElementById('close-filters');
+
+    toggleBtn.addEventListener('click', () => {
+      const open = drawer.classList.toggle('open');
+      toggleBtn.textContent = open ? 'Hide Filters' : 'Show Filters';
+      toggleBtn.setAttribute('aria-expanded', open);
+    });
+    closeBtn.addEventListener('click', () => {
+      drawer.classList.remove('open');
+      toggleBtn.textContent = 'Show Filters';
+      toggleBtn.setAttribute('aria-expanded', false);
+    });
+  </script>
 </body>
 </html>

@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+        }
+        
+        body {
+            background-color: #121212;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .menu-container {
+            background-color: rgba(30, 30, 30, 0.85);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 95%;
+            max-width: 1400px;
+            height: 85vh;
+            max-height: 800px;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .menu-header {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .menu-title {
+            font-size: 2.5rem;
+            color: #bb86fc;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(187, 134, 252, 0.3);
+        }
+        
+        .menu-subtitle {
+            color: #e0e0e0;
+            font-size: 1rem;
+        }
+        
+        .menu-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            overflow: auto;
+            padding: 10px;
+            flex: 1;
+            scrollbar-width: thin;
+            scrollbar-color: #bb86fc #1e1e1e;
+        }
+
+        /* Custom scrollbar for webkit browsers */
+        .menu-content::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        .menu-content::-webkit-scrollbar-track {
+            background: #1e1e1e;
+            border-radius: 4px;
+        }
+        
+        .menu-content::-webkit-scrollbar-thumb {
+            background: #bb86fc;
+            border-radius: 4px;
+        }
+        
+        .menu-section {
+            flex: 1;
+            min-width: 250px;
+            max-width: calc(100% / 5 - 15px);
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #bb86fc;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title .emoji {
+            margin-right: 8px;
+            font-size: 1.6rem;
+        }
+        
+        .menu-items {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .menu-item {
+            background-color: rgba(40, 40, 40, 0.7);
+            border-radius: 8px;
+            padding: 12px;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .menu-item:hover {
+            background-color: rgba(60, 60, 60, 0.8);
+            border-left: 3px solid #bb86fc;
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .item-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .item-emoji {
+            font-size: 1.5rem;
+            margin-right: 10px;
+            filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.5));
+        }
+        
+        .item-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        .item-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .item-description {
+            color: #b0b0b0;
+            font-size: 0.8rem;
+            flex: 1;
+            margin-right: 10px;
+            line-height: 1.2;
+        }
+        
+        .item-price {
+            font-weight: bold;
+            color: #03dac6;
+            background-color: rgba(3, 218, 198, 0.1);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+        }
+        
+        .menu-footer {
+            text-align: center;
+            padding-top: 10px;
+            color: #888;
+            font-size: 0.8rem;
+        }
+        
+        @media (max-width: 1200px) {
+            .menu-section {
+                max-width: calc(100% / 3 - 15px);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .menu-section {
+                max-width: calc(100% / 2 - 15px);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .menu-section {
+                max-width: 100%;
+            }
+            
+            .menu-container {
+                height: 90vh;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    
+    <div class="menu-container">
+        <div class="menu-header">
+            <h1 class="menu-title">Creative Cuisine</h1>
+            <p class="menu-subtitle">A unique culinary experience</p>
+        </div>
+        
+        <div class="menu-content">
+            <div class="menu-section">
+                <h2 class="section-title"><span class="emoji">🍲</span> Main Dishes</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="item-header">
+                            <span class="item-emoji">🍣</span>
+                            <h3 class="item-title">Rick-rolls</h3>
+                        </div>
+                        <div class="item-details">
+                            <p class="item-description">Sushi that rickrolls you</p>
+                            <span class="item-price">$12.99</span>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-header">
+                            <span class="item-emoji">🍗</span>
+                            <h3 class="item-title">Chicken Jockey</h3>
+                        </div>
+                        <div class="item-details">
+                            <p class="item-description">Chicken wings with guacamole</p>
+                            <span class="item-price">$6.90</span>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-header">
+                            <span class="item-emoji">🍲</span>
+                            <h3 class="item-title">The High Ground</h3>
+                        </div>
+                        <div class="item-details">
+                            <p class="item-description">Ratatouille with power over Anakin</p>
+                            <span class="item-price">$13.99</span>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-header">
+                            <span class="item-emoji">🐟</span>
+                            <h3 class="item-title">1£ fish</h3>
+                        </div>
+                        <div class="item-details">
+                            <p class="item-description">Really good and really cheap fish</p>
+                            <span class="item-price">$1</span>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-header">
+                            <span class="item-emoji">🍬</span>
+                            <h3 class="item-title">Sweet Sacrifice</h3>
+                        </div>
+                        <div class="item-details">
+                            <p class="item-description">Just a lot of sugar</p>
+                            <span class="item-price">$6.99</span>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-header">
+                            <span class="item-emoji">🥘</span>
+                            <h3 class="item-title">El Morjene Couscous</h3>
+                        </div>
+                        <div class="item-details">
+                            <p class="item-description">🦶🦶</p>
+                            <span class="item-price">$14.99</span>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-header">
+                            <span class="item-emoji">🔥</span>
+                            <h3 class="item-title">Steve's lava chicken</h3>
+                        </div>
+                        <div class="item-details">
+                            <p class="item-description">Very spicy whole chicken</p>
+                            <span class="item-price">$15.99</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="menu-section">
+                <h2 class="section-title"><span class="emoji">🥕</span> Appetizers</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="item-header">
+                            <span class="item-emoji">🥕</span>
+                            <h3 class="item-title">Kakarot-o!</h3>
+                        </div>
+                        <div class="item-details">
+                            <p class="item-description">Super Saiyan carrot shreds</p>
+                            <span class="item-price">$2.99</span>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-header">
+                            <span class="item-emoji">🥖</span>
+                            <h3 class="item-title">Oui Oui Baguette</h3>
+                        </div>
+                        <div class="item-details">
+                            <p class="item-description">Really, really French baguette</p>
+                            <span class="item-price">$1.69</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="menu-section">
+                <h2 class="section-title"><span class="emoji">🍰</span> Desserts</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="item-header">
+                            <span class="item-emoji">🍌</span>
+                            <h3 class="item-title">Banana Cat</h3>
+                        </div>
+                        <div class="item-details">
+                            <p class="item-description">Banana with cake icing</p>
+                            <span class="item-price">$3.99</span>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-header">
+                            <span class="item-emoji">🎂</span>
+                            <h3 class="item-title">The Cake Is a Lie</h3>
+                        </div>
+                        <div class="item-details">
+                            <p class="item-description">Regular chocolate cake (or is it?)</p>
+                            <span class="item-price">$5.49</span>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-header">
+                            <span class="item-emoji">🍎</span>
+                            <h3 class="item-title">Bad Apple</h3>
+                        </div>
+                        <div class="item-details">
+                            <p class="item-description">What can I see? An apple</p>
+                            <span class="item-price">$0.99</span>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-header">
+                            <span class="item-emoji">🟢</span>
+                            <h3 class="item-title">Ender Pearl</h3>
+                        </div>
+                        <div class="item-details">
+                            <p class="item-description">Teleport your taste buds</p>
+                            <span class="item-price">$0.99</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="menu-section">
+                <h2 class="section-title"><span class="emoji">🍟</span> Side Dishes</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="item-header">
+                            <span class="item-emoji">🍟</span>
+                            <h3 class="item-title">Fahrrad Fries</h3>
+                        </div>
+                        <div class="item-details">
+                            <p class="item-description">"Far-out" totally rad fries</p>
+                            <span class="item-price">$1.99</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="menu-section">
+                <h2 class="section-title"><span class="emoji">🥤</span> Drinks</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="item-header">
+                            <span class="item-emoji">💧</span>
+                            <h3 class="item-title">Bo'o' Wo'o'</h3>
+                        </div>
+                        <div class="item-details">
+                            <p class="item-description">Water with a British accent</p>
+                            <span class="item-price">$0.10</span>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-header">
+                            <span class="item-emoji">🥛</span>
+                            <h3 class="item-title">G.O.A.T.E.D Milk</h3>
+                        </div>
+                        <div class="item-details">
+                            <p class="item-description">Greatest Of All Time milk</p>
+                            <span class="item-price">$0.99</span>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-header">
+                            <span class="item-emoji">☕</span>
+                            <h3 class="item-title">Balerina Capuchina</h3>
+                        </div>
+                        <div class="item-details">
+                            <p class="item-description">Coffee that makes you twirl</p>
+                            <span class="item-price">$2.99</span>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-header">
+                            <span class="item-emoji">☕</span>
+                            <h3 class="item-title">Fruli Frula</h3>
+                        </div>
+                        <div class="item-details">
+                            <p class="item-description">Coffee with no sugar</p>
+                            <span class="item-price">$5.99</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="menu-footer">
+            <p>Prices subject to change • Enjoy your meal!</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize particles.js
+            particlesJS('particles-js', {
+                particles: {
+                    number: {
+                        value: 80,
+                        density: {
+                            enable: true,
+                            value_area: 800
+                        }
+                    },
+                    color: {
+                        value: "#bb86fc"
+                    },
+                    shape: {
+                        type: "circle",
+                        stroke: {
+                            width: 0,
+                            color: "#000000"
+                        },
+                    },
+                    opacity: {
+                        value: 0.5,
+                        random: true,
+                        anim: {
+                            enable: true,
+                            speed: 1,
+                            opacity_min: 0.1,
+                            sync: false
+                        }
+                    },
+                    size: {
+                        value: 3,
+                        random: true,
+                        anim: {
+                            enable: false,
+                            speed: 40,
+                            size_min: 0.1,
+                            sync: false
+                        }
+                    },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#bb86fc",
+                        opacity: 0.2,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 2,
+                        direction: "none",
+                        random: false,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false,
+                        attract: {
+                            enable: false,
+                            rotateX: 600,
+                            rotateY: 1200
+                        }
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: {
+                            enable: true,
+                            mode: "grab"
+                        },
+                        onclick: {
+                            enable: true,
+                            mode: "push"
+                        },
+                        resize: true
+                    },
+                    modes: {
+                        grab: {
+                            distance: 140,
+                            line_linked: {
+                                opacity: 0.5
+                            }
+                        },
+                        push: {
+                            particles_nb: 4
+                        }
+                    }
+                },
+                retina_detect: true
+            });
+            
+            // Add animation for menu items
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    const emoji = item.querySelector('.item-emoji');
+                    emoji.style.transform = 'scale(1.3) rotate(10deg)';
+                    emoji.style.transition = 'transform 0.3s ease';
+                });
+                
+                item.addEventListener('mouseleave', () => {
+                    const emoji = item.querySelector('.item-emoji');
+                    emoji.style.transform = 'scale(1) rotate(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
