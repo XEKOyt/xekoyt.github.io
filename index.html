@@ -1,601 +1,1189 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>The Meme Seller</title>
-  <link rel="stylesheet" href="styles.css">
-  <style>
-    /* Drawer styles */
-    .filter-drawer {
-      position: fixed;
-      top: 0;
-      right: 0;
-      width: 320px;
-      height: 100vh;
-      transform: translateX(100%);
-      transition: transform var(--transition-standard);
-      background: var(--light-bg);
-      box-shadow: var(--shadow-lg);
-      z-index: 999;
-      overflow-y: auto;
-    }
-    .filter-drawer.open {
-      transform: translateX(0);
-    }
-    #toggle-filters {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      background-color: var(--primary-color);
-      color: white;
-      border: none;
-      padding: 12px 16px;
-      border-radius: var(--border-radius-md);
-      cursor: pointer;
-      box-shadow: var(--shadow-md);
-      z-index: 1000;
-      transition: var(--transition-standard);
-    }
-    .close-filters {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background: none;
-      border: none;
-      font-size: 2rem;
-      color: var(--text-color);
-      cursor: pointer;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make It Yours - Agence Web Professionnelle</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2563eb;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            color: #374151;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #2563eb;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #2563eb;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 140px 0 100px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(37,99,235,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            opacity: 0.6;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(37, 99, 235, 0.1);
+            color: #2563eb;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(37, 99, 235, 0.2);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #6b7280;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+            padding: 16px 32px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #374151;
+            padding: 16px 32px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            border-color: #2563eb;
+            color: #2563eb;
+            transform: translateY(-2px);
+        }
+
+        /* Services Section */
+        .services {
+            padding: 120px 0;
+            background: #ffffff;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background: rgba(37, 99, 235, 0.1);
+            color: #2563eb;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        .section-description {
+            font-size: 1.1rem;
+            color: #6b7280;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+            min-height: 200px;
+            background: rgba(37, 99, 235, 0.03);
+            border-radius: 16px;
+            border: 1px dashed rgba(37, 99, 235, 0.2);
+            align-items: stretch;
+        }
+
+        .service-card {
+            background: #ffffff;
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            border-color: #2563eb;
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .service-card h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .service-features li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            color: #374151;
+            font-size: 0.9rem;
+        }
+
+        .service-features li::before {
+            content: '✓';
+            color: #22c55e;
+            font-weight: bold;
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 80px 0;
+            background: #f8fafc;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 1.5rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2563eb;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        /* About Section */
+        .about {
+            padding: 120px 0;
+            background: #ffffff;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .about-text p {
+            color: #6b7280;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .about-feature {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .about-feature-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2563eb;
+            font-size: 1.2rem;
+        }
+
+        .about-feature-text {
+            font-size: 0.9rem;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        .about-image {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+        }
+
+        .about-image-content {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-image-content::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        /* Portfolio Section */
+        .portfolio {
+            padding: 120px 0;
+            background: #f8fafc;
+        }
+
+        .portfolio-grid {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 4rem;
+            min-height: 300px;
+            background: rgba(37, 99, 235, 0.03);
+            border-radius: 16px;
+            border: 2px dashed rgba(37, 99, 235, 0.2);
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .portfolio-item {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .portfolio-item-image {
+            height: 220px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portfolio-item-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .portfolio-item:hover .portfolio-item-image::before {
+            opacity: 1;
+        }
+
+        .portfolio-item-content {
+            padding: 2rem;
+        }
+
+        .portfolio-item h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+
+        .portfolio-item-category {
+            font-size: 0.85rem;
+            color: #2563eb;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .portfolio-item p {
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .portfolio-item-link {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: color 0.3s ease;
+        }
+
+        .portfolio-item-link:hover {
+            color: #1d4ed8;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 120px 0;
+            background: #ffffff;
+        }
+
+        .contact-content {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .contact-form {
+            background: #f8fafc;
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #374151;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: white;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .contact-info {
+            padding: 2rem 0;
+        }
+
+        .contact-info h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-info p {
+            color: #6b7280;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .contact-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .contact-detail-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2563eb;
+        }
+
+        .contact-detail-text {
+            color: #374151;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: #9ca3af;
+            padding: 3rem 0;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #9ca3af;
+            text-decoration: none;
+            line-height: 1.6;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #2563eb;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 2rem;
+            text-align: center;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .about-content,
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .services-grid,
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-features {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
 </head>
 <body>
-  <!-- Audio elements -->
-  <audio id="memeSound1" src="https://www.myinstants.com/media/sounds/vine-boom.mp3"></audio>
-  <audio id="memeSound2" src="https://www.myinstants.com/media/sounds/bonk-sound-effect.mp3"></audio>
-  <audio id="memeSound3" src="https://www.myinstants.com/media/sounds/windows-xp-error.mp3"></audio>
-  <audio id="memeSound4" src="https://www.myinstants.com/media/sounds/amongus.mp3"></audio>
-  <audio id="memeSound5" src="https://www.myinstants.com/media/sounds/bruh.mp3"></audio>
-  <audio id="soundLetMeKnow" src="https://www.myinstants.com/media/sounds/let-me-know.mp3"></audio>
-  <audio id="rickroll" src="https://www.myinstants.com/media/sounds/rickroll.mp3"></audio>
-  <audio id="sound1" src="https://www.myinstants.com/media/sounds/bla-bla-bla-ble-ble-ble.mp3"></audio>
-  <audio id="sound2" src="https://www.myinstants.com/media/sounds/discord-notification.mp3"></audio>
-  <audio id="sound3" src="https://www.myinstants.com/media/sounds/le-poisson-steve.mp3"></audio>
-  <audio id="sound4" src="https://www.myinstants.com/media/sounds/among-us-role-reveal-sound.mp3"></audio>
-  <audio id="sound5" src="https://www.myinstants.com/media/sounds/tuco-get-out.mp3"></audio>
-  <audio id="sound6" src="https://www.myinstants.com/media/sounds/french-meme-song.mp3"></audio>
-  <audio id="sound7" src="https://www.myinstants.com/media/sounds/rizz-sound-effect.mp3"></audio>
-
-  <button id="toggle-filters" aria-expanded="false">Show Filters</button>
-
-  <div class="container">
-    <header>
-      <h1>
-        <span class="emoji" style="--delay: 0;">🍔</span> 
-        The Meme Seller 
-        <span class="emoji" style="--delay: 1;">🚚</span>
-      </h1>
-      <p class="tagline">Our food truck will never gonna give you up!</p>
+    <header id="header">
+        <nav class="container">
+            <a href="#" class="logo">Make It Yours</a>
+            <ul class="nav-links">
+                <li><a href="#accueil">Accueil</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">À propos</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <div class="nav-container">
-      <div class="nav-tabs">
-        <button class="nav-tab active" data-tab="menu">🍽️ Meme-nu</button>
-        <button class="nav-tab" data-tab="about">🧑‍🍳 Our Story</button>
-        <button class="nav-tab" data-tab="gallery">📸 Meme Gallery</button>
-        <button class="nav-tab" data-tab="location">📍 Find Us</button>
-        <button class="nav-tab" data-tab="order">🛒 Order Online</button>
-      </div>
-    </div>
-
-    <div class="container">
-      <!-- Menu Page -->
-      <div class="page active" id="menu">
-  
-        <!-- Off-canvas filter drawer -->
-        <div id="filter-drawer" class="filter-drawer">
-          <button id="close-filters" class="close-filters" aria-label="Close Filters">&times;</button>
-          <div class="filter-container">
-            <h3>Filter Our Meme-nu</h3>
-            <div class="filter-tabs">
-              <button class="filter-tab active" data-filter="categories">Categories</button>
-              <button class="filter-tab" data-filter="price">Price Range</button>
-              <button class="filter-tab" data-filter="special">Special Options</button>
-            </div>
-            <div class="filter-panels">
-              <div class="filter-panel active" id="categories-panel">
-                <div class="checkbox-grid">
-                  <label class="fancy-checkbox">
-                    <input type="checkbox" value="Main Dishes" checked>
-                    <span class="checkmark"></span>
-                    <span class="label-text">🍲 Main Dishes</span>
-                  </label>
-                  <label class="fancy-checkbox">
-                    <input type="checkbox" value="Appetizers" checked>
-                    <span class="checkmark"></span>
-                    <span class="label-text">🥕 Appetizers</span>
-                  </label>
-                  <label class="fancy-checkbox">
-                    <input type="checkbox" value="Desserts" checked>
-                    <span class="checkmark"></span>
-                    <span class="label-text">🍰 Desserts</span>
-                  </label>
-                  <label class="fancy-checkbox">
-                    <input type="checkbox" value="Side Dishes" checked>
-                    <span class="checkmark"></span>
-                    <span class="label-text">🍟 Side Dishes</span>
-                  </label>
-                  <label class="fancy-checkbox">
-                    <input type="checkbox" value="Original Drinks" checked>
-                    <span class="checkmark"></span>
-                    <span class="label-text">🥤 Drinks</span>
-                  </div>
+    <section id="accueil" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">✨ Agence Web Professionnelle</div>
+                <h1>Make It Yours</h1>
+                <p>Créez votre présence en ligne avec des sites web professionnels sur mesure. Portfolios, sites de restaurants, boutiques en ligne - nous donnons vie à vos idées.</p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn-primary">
+                        <span>Démarrer un projet</span>
+                        <span>→</span>
+                    </a>
+                    <a href="#portfolio" class="btn-secondary">
+                        <span>Voir nos réalisations</span>
+                    </a>
                 </div>
-                <div class="filter-panel" id="price-panel">
-                  <div class="price-slider-container">
-                    <div class="price-inputs">
-                      <div class="price-field">
-                        <label for="min-price">Min Price</label>
-                        <div class="input-wrapper">
-                          <span class="currency">$</span>
-                          <input type="number" id="min-price" placeholder="0" min="0" step="0.01">
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <!-- <div class="stat-item">
+                   <div class="stat-number">150+</div>
+                    <div class="stat-label">Projets réalisés</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Clients satisfaits</div>
+                </div> -->
+                <div class="stat-item">
+                    <div class="stat-number">2+</div>
+                    <div class="stat-label">Années d'expérience</div>
+                </div>
+              <!--  <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Support technique</div> --> 
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">Nos Services</div>
+                <h2 class="section-title">Solutions Web Complètes</h2>
+                <p class="section-description">Nous offrons une gamme complète de services pour créer votre présence en ligne parfaite.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card fade-in">
+                    <div class="service-icon">️🍴</div>
+                    <h3>Sites de Restaurants</h3>
+                    <p>Créez une expérience culinaire en ligne avec des menus interactifs, réservations et commandes en ligne.</p>
+                    <ul class="service-features">
+                        <li>Menus digitaux dynamiques</li>
+                        <li>Système de réservation</li>
+                        <li>Commandes en ligne</li>
+                        <li>Galerie photos professionnelle</li>
+                    </ul>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon">🏢</div>
+                    <h3>Sites Vitrine</h3>
+                    <p>Présentez votre entreprise avec élégance grâce à des sites vitrine professionnels et impactants.</p>
+                    <ul class="service-features">
+                        <li>Design sur mesure</li>
+                        <li>Présentation services/produits</li>
+                        <li>Formulaires de contact</li>
+                        <li>Témoignages clients</li>
+                    </ul>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon">🚀</div>
+                    <h3>Refonte & Modernisation</h3>
+                    <p>Donnez une nouvelle vie à votre site existant avec une refonte complète aux standards actuels.</p>
+                    <ul class="service-features">
+                        <li>Audit technique complet</li>
+                        <li>Amélioration des performances</li>
+                        <li>Migration sécurisée</li>
+                        <li>Formation équipe</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <div class="section-badge">À propos</div>
+                    <h2>Expertise & Excellence</h2>
+                    <p>Chez Make It Yours, nous combinons créativité et expertise technique pour créer des sites web exceptionnels. Notre équipe de professionnels passionnés s'engage à livrer des solutions sur mesure qui dépassent vos attentes.</p>
+                    <p>Nous utilisons les dernières technologies et les meilleures pratiques de l'industrie pour garantir des performances optimales, une sécurité maximale et une expérience utilisateur remarquable.</p>
+                    <div class="about-features">
+                        <div class="about-feature">
+                            <div class="about-feature-icon">⚡</div>
+                            <div class="about-feature-text">Performance optimisée</div>
                         </div>
-                      </div>
-                      <div class="price-separator">to</div>
-                      <div class="price-field">
-                        <label for="max-price">Max Price</label>
-                        <div class="input-wrapper">
-                          <span class="currency">$</span>
-                          <input type="number" id="max-price" placeholder="20" min="0" step="0.01">
+                        <div class="about-feature">
+                            <div class="about-feature-icon">🔒</div>
+                            <div class="about-feature-text">Sécurité renforcée</div>
                         </div>
-                      </div>
+                        <div class="about-feature">
+                            <div class="about-feature-icon">📱</div>
+                            <div class="about-feature-text">Design responsive</div>
+                        </div>
+                        <div class="about-feature">
+                            <div class="about-feature-icon">🎯</div>
+                            <div class="about-feature-text">SEO optimisé</div>
+                        </div>
                     </div>
-                  </div>
                 </div>
-                <div class="filter-panel" id="special-panel">
-                  <div class="toggle-options">
-                    <label class="toggle-switch">
-                      <input type="checkbox" id="bestseller-only">
-                      <span class="toggle-slider"></span>
-                      <span class="toggle-text">Bestsellers Only</span>
-                    </label>
-                    <label class="toggle-switch">
-                      <input type="checkbox" id="sort-price-asc">
-                      <span class="toggle-slider"></span>
-                      <span class="toggle-text">Sort by Price (Low to High)</span>
-                    </label>
-                  </div>
+                <div class="about-image">
+                    <div class="about-image-content">💼</div>
                 </div>
-              </div>
-              <div class="filter-actions">
-                <button id="apply-filters" class="apply-btn">Apply Filters</button>
-                <button id="reset-filters" class="reset-btn">Reset All</button>
-              </div>
             </div>
-          </div>
+        </div>
+    </section>
 
-          <div class="menu-section">
-            <h2>🍲 Main Dishes</h2>
-            
-            <div class="menu-item">
-              <div class="menu-item-name">🍣 Rick-rolls</div>
-              <div class="menu-item-desc">Sushi that rickrolls you, nah they'll never do that</div>
-              <div class="menu-item-price">$12.99</div>
+    <section id="portfolio" class="portfolio">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">Portfolio</div>
+                <h2 class="section-title">Nos Réalisations</h2>
+                <p class="section-description">Découvrez quelques-uns de nos projets récents et l'impact qu'ils ont eu sur nos clients.</p>
             </div>
-            
-            <div class="menu-item">
-              <div class="menu-item-name">🍗 Chicken Jockey</div>
-              <div class="menu-item-desc">Chicken wings with guacamole</div>
-              <div class="menu-item-price">$6.90</div>
+            <div class="portfolio-grid">
+                <div>
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🚧</div>
+                    <span style="color: #6b7280; font-size: 1.2rem;">Contenu à venir</span>
+                    <p style="color: #9ca3af; margin-top: 0.5rem;">Nos réalisations seront bientôt disponibles</p>
+                </div>
             </div>
-            
-            <div class="menu-item">
-              <div class="menu-item-name">🍲 The High Ground</div>
-              <div class="menu-item-desc">A ratatouille that gives you power over Anakin</div>
-              <div class="menu-item-price">$13.99</div>
-            </div>
-            
-            <div class="menu-item">
-              <div class="menu-item-name">🐟 1£ fish</div>
-              <div class="menu-item-desc">A fish that's really really good and really really cheap</div>
-              <div class="menu-item-price">$1</div>
-            </div>
-            
-            <div class="menu-item">
-              <div class="menu-item-name">🍬 The Sweet Sacrifice</div>
-              <div class="menu-item-desc">Worth every calories (just alot of sugar)</div>
-              <div class="menu-item-price">$6.99</div>
-            </div>
-            
-            <div class="menu-item bestseller">
-              <div class="menu-item-name">🥘 El Morjene Couscous</div>
-              <div class="menu-item-desc">Couscous with el Morjene</div>
-              <div class="menu-item-price">$14.99</div>
-            </div>
-            
-            <div class="menu-item">
-              <div class="menu-item-name">🔥 Steve's lava chicken</div>
-              <div class="menu-item-desc">A whole chicken but very spicy like very spicy</div>
-              <div class="menu-item-price">$15.99</div>
-            </div>
-          </div>
-          
-          <div class="menu-section">
-            <h2>🥕 Appetizers</h2>
-            
-            <div class="menu-item">
-              <div class="menu-item-name">🥕 Kakarot-o!</div>
-              <div class="menu-item-desc">Shredded carrots that'll power you up to Super Saiyan. Over 9000 taste levels</div>
-              <div class="menu-item-price">$2.99</div>
-            </div>
-            
-            <div class="menu-item bestseller">
-              <div class="menu-item-name">🥖 Oui Oui Mmmh Baguette</div>
-              <div class="menu-item-desc">Just a baguette, but make it more french, like really french</div>
-              <div class="menu-item-price">$1.69</div>
-            </div>
-          </div>
-          
-          <div class="menu-section">
-            <h2>🍰 Desserts</h2>
-            
-            <div class="menu-item">
-              <div class="menu-item-name">🍌 Banana Cat</div>
-              <div class="menu-item-desc">Banana with cake icing, you'll definitely cry after eating that</div>
-              <div class="menu-item-price">$3.99</div>
-            </div>
+        </div>
+    </section>
 
-            <div class="menu-item">
-              <div class="menu-item-name">🥞 El Morjene Crepe</div>
-              <div class="menu-item-desc">Crepes with el morjene you can choose chocolate flavor or the normal one.</div>
-              <div class="menu-item-price">$2.99</div>
-            </div>
-            
-            <div class="menu-item">
-              <div class="menu-item-name">🎂 The Cake Is a Lie</div>
-              <div class="menu-item-desc">Regular chocolate cake (or is it?)</div>
-              <div class="menu-item-price">$5.49</div>
-            </div>
-            
-            <div class="menu-item bestseller">
-              <div class="menu-item-name">🍎 Bad Apple</div>
-              <div class="menu-item-desc">What can I see? An apple</div>
-              <div class="menu-item-price">$0.99</div>
-            </div>
-            
-            <div class="menu-item">
-              <div class="menu-item-name">🟢 Ender Pearl</div>
-              <div class="menu-item-desc">Teleport your taste buds to another dimension</div>
-              <div class="menu-item-price">$0.99</div>
-            </div>
-          </div>
-          
-          <div class="menu-section">
-            <h2>🍟 Side Dishes</h2>
-            
-            <div class="menu-item">
-              <div class="menu-item-name">🍟 Fahrrad Fries</div>
-              <div class="menu-item-desc">"Far-out" fries that are just fries yeah.. french fries..</div>
-              <div class="menu-item-price">$1.99</div>
-            </div>
-          </div>
-          
-          <div class="menu-section">
-            <h2>🥤 Original Drinks</h2>
-            
-            <div class="menu-item">
-              <div class="menu-item-name">💧 Bo'o' Wo'o'</div>
-              <div class="menu-item-desc">Water coming from the uk</div>
-              <div class="menu-item-price">$0.10</div>
-            </div>
-            
-            <div class="menu-item">
-              <div class="menu-item-name">🥛 G.O.A.T.E.D Milk</div>
-              <div class="menu-item-desc">Greatest Of All Time Extra Delicious milk</div>
-              <div class="menu-item-price">$0.99</div>
-            </div>
-            
-            <div class="menu-item">
-              <div class="menu-item-name">☕ Balerina Capuchina</div>
-              <div class="menu-item-desc">Coffee that makes you twirl</div>
-              <div class="menu-item-price">$2.99</div>
-            </div>
-            
-            <div class="menu-item">
-              <div class="menu-item-name">☕ Fruli Frula</div>
-              <div class="menu-item-desc">Coffee with no sugar - straight to the point</div>
-              <div class="menu-item-price">$5.99</div>
-            </div>
-          </div>
-          
-          <div class="reviews-section">
-            <h2>⭐ Customer Reviews</h2>
-            
-            <div class="reviews-container">
-              <div class="review-card">
-                <div class="reviewer">
-                  <img src="https://batman-univers.fr/wp-content/uploads/2024/12/1735271884_Star-Wars-a-le-parfait-Anakin-Skywalker.jpg" alt="Reviewer" class="reviewer-img">
-                  <div class="reviewer-info">
-                    <div class="reviewer-name">Anakin</div>
-                    <div class="reviewer-date">May 4th, 2024</div>
-                  </div>
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Parlons de votre projet</h3>
+                    <p>Notre équipe d'experts est prête à vous accompagner dans la réalisation de votre projet web. Nous vous répondons sous 24h pour planifier un rendez-vous de consultation gratuite.</p>
+                    <div class="contact-details" style="display: flex; flex-wrap: wrap; gap: 2rem;">
+                        <div style="flex: 1; min-width: 220px;">
+                            <div class="contact-detail" style="margin-bottom: 1rem;">
+                                <span class="contact-detail-icon">📧</span>
+                                <span class="contact-detail-text">contact@makeityours.fr</span>
+                            </div>
+                        </div>
+                        <div style="flex: 1; min-width: 220px;">
+                            <div class="contact-detail" style="margin-bottom: 1rem;">
+                                <span class="contact-detail-icon">📍</span>
+                                <span class="contact-detail-text">La celle saint cloud, France</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="review-rating">⭐⭐⭐⭐⭐/5</div>
-                <div class="review-text">Nice food, may the 4th be with you</div>
-              </div>
-              
-              <div class="review-card">
-                <div class="reviewer">
-                  <img src="https://media.bandsintown.com/300x300/15786554.webp" alt="Reviewer" class="reviewer-img">
-                  <div class="reviewer-info">
-                    <div class="reviewer-name">Rick Astley</div>
-                    <div class="reviewer-date">April 1, 2025</div>
-                  </div>
-                </div>
-                <div class="review-rating">⭐⭐⭐⭐⭐/5</div>
-                <div class="review-text">Never gonna give these Rick-rolls up! Never gonna let these flavors down!</div>
-              </div>
-              
-              <div class="review-card">
-                <div class="reviewer">
-                  <img src="https://i.scdn.co/image/ab6761610000e5ebc151a5dd134c40493a3100ba" alt="Reviewer" class="reviewer-img">
-                  <div class="reviewer-info">
-                    <div class="reviewer-name">Mr beast</div>
-                    <div class="reviewer-date">Febuary 30th, 2026</div>
-                  </div>
-                </div>
-                <div class="review-rating">⭐⭐⭐⭐/5</div>
-                <div class="review-text">I love this food sadly I didn't got salt in my Kakarot-o, still good tho!</div>
-              </div>
+            </div>
+        </div>
+    </section>
 
-              <div class="review-card">
-                <div class="reviewer">
-                  <img src="https://cdn.discordapp.com/avatars/809507675913584720/beb4beb81625258e494ae94ec6d6b396.webp?size=1024&format=webp&width=461&height=461" alt="Reviewer" class="reviewer-img">
-                  <div class="reviewer-info">
-                    <div class="reviewer-name">Y-Skull</div>
-                    <div class="reviewer-date">June 9th, 2048</div>
-                  </div>
+    <!-- FAQ Section -->
+    <section id="faq" class="faq" style="padding: 120px 0; background: #f8fafc;">
+        <div class="container">
+            <div class="section-header" style="text-align: center; margin-bottom: 3rem;">
+                <div class="section-badge">FAQ</div>
+                <h2 class="section-title">Questions fréquentes</h2>
+                <p class="section-description">Retrouvez ici les réponses aux questions les plus courantes.</p>
+            </div>
+            <div style="max-width: 700px; margin: 0 auto;">
+                <div class="faq-item" style="margin-bottom: 2rem;">
+                    <h4 style="color: #2563eb; margin-bottom: 0.5rem;">Quels types de sites proposez-vous ?</h4>
+                    <p style="color: #374151;">Nous réalisons des sites vitrine, des sites de restaurants, des boutiques en ligne, des applications web et des refontes.</p>
                 </div>
-                <div class="review-rating">⭐⭐⭐⭐⭐⭐⭐⭐/5</div>
-                <div class="review-text">I like kids in the basements, I liked the Fruli Frula with the cream 😋</div>
-              </div>
-              
-              <div class="review-card">
-                <div class="reviewer">
-                  <img src="https://cdn.discordapp.com/avatars/1100313870674972754/b4141e308105dfd0daebe1928b7f0d82.webp?size=1024&format=webp&width=461&height=461" alt="Reviewer" class="reviewer-img">
-                  <div class="reviewer-info">
-                    <div class="reviewer-name">TFZ</div>
-                    <div class="reviewer-date">April 28th, 2025</div>
-                  </div>
+                <div class="faq-item" style="margin-bottom: 2rem;">
+                    <h4 style="color: #2563eb; margin-bottom: 0.5rem;">Quel est le délai moyen de réalisation ?</h4>
+                    <p style="color: #374151;">Le délai dépend du projet, mais en général il faut compter entre 2 et 6 semaines.</p>
                 </div>
-                <div class="review-rating">⭐⭐⭐⭐⭐/5</div>
-                <div class="review-text">It's absolute cinema. Just fire, the waiter are incredible the food is delicious so, yeah, it's over 9000</div>
-              </div>
+                <div class="faq-item" style="margin-bottom: 2rem;">
+                    <h4 style="color: #2563eb; margin-bottom: 0.5rem;">Comment se passe le suivi après livraison ?</h4>
+                    <p style="color: #374151;">Nous assurons un support technique et des mises à jour selon vos besoins.</p>
+                </div>
+                <div class="faq-item">
+                    <h4 style="color: #2563eb; margin-bottom: 0.5rem;">Comment demander un devis ?</h4>
+                    <p style="color: #374151;">Contactez-nous via la section contact ou par email, nous vous répondrons sous 24h.</p>
+                </div>
             </div>
-          </div>
         </div>
-        
-        <!-- About Page -->
-        <div class="page" id="about">
-          <h2>Our Meme-tastic Story</h2>
-          <p>What happens when a group of friends are hungry, broke, and obsessed with memes? The Meme Seller food truck is born!</p>
-          <br>
-          <div class="story-script">
-            <h3>How It Started</h3>
-            <p>Simple. Because we were hungry…</p>
-            <p>…and broke.</p>
-            <p>So we said, 'What if we made food… but made it a meme?'</p>
-            <p>Now we're out here serving dishes Gordon Ramsay would cry over.</p>
-            <p>And honestly, we just wanted a valid excuse to rickroll people with sushis</p>
-            <p>Anyways..</p>
-            <p>Welcome to The Meme Seller. We feed your hunger... and your brainroted brain.</p>
-          </div>
-          <br>
-          <h3>Meet Our Meme Team (for real)</h3>
-          <div class="staff-container">
-            <div class="staff-member">
-              <img src="https://cdn.discordapp.com/attachments/1174065464146677852/1371832824990269490/cat-money.png?ex=68249260&is=682340e0&hm=007bc32badf85dc1de6450e1bd3c3a0d65bc7a07d4c20aebec751d710961b797" alt="Kenz" class="staff-image">
-              <div class="staff-name">Kenz</div>
-              <div class="staff-role">Meme Master</div>
-              <div class="staff-bio">Made the whole website, some ideas, the 2nd concept of prices and a good part of the script.</div>
-            </div>
-            
-            <div class="staff-member">
-              <img src="https://dk2dv4ezy246u.cloudfront.net/widgets/sSIvBPBOgMM_large.jpg" alt="Rayan" class="staff-image">
-              <div class="staff-name">Rayan</div>
-              <div class="staff-role">Sigma</div>
-              <div class="staff-bio">Made most of the art and some ideas.</div>
-            </div>
-            
-            <div class="staff-member">
-              <img src="https://cdn.discordapp.com/avatars/1100313870674972754/b4141e308105dfd0daebe1928b7f0d82.webp?size=1024&format=webp&width=461&height=461" alt="Toyib" class="staff-image">
-              <div class="staff-name">Toyib</div>
-              <div class="staff-role">Goated Graphics designer.</div>
-              <div class="staff-bio">Made a good part of the menu, first concept of the price and a good part of the script and the questions of the quizz.</div>
-            </div>
-            
-            <div class="staff-member">
-              <img src="https://cdn.discordapp.com/avatars/926149778197332049/7fd08f31c053ad3a6085304350ebd766.webp?size=1024&format=webp&width=461&height=461" alt="Marin" class="staff-image">
-              <div class="staff-name">Marin</div>
-              <div class="staff-role">Eeper</div>
-              <div class="staff-bio">...</div>
-            </div>
-          </div>
-        </div>
-        
-<!-- Gallery Page -->
-<div class="page" id="gallery">
-  <h2>Meme Food Gallery</h2>
-  <p>Feast your eyes on our most epic creations! Click on any image or video to enlarge.</p>
-  
-  <div class="gallery-container">
-    <!-- Image items -->
-    <div class="gallery-item">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJrlf9s3Mk5LDXt3n81nGyBOamRhd4AGj_kg&s" alt="The cake is a">
-      <div class="item-overlay">
-        <span class="item-title">The Cake Is a Lie</span>
-      </div>
-    </div>
-    <div class="gallery-item">
-      <img src="elmorjenecouscous.jpg" alt="El Morjene Couscous">
-      <div class="item-overlay">
-        <span class="item-title">El Morjene Couscous</span>
-      </div>
-    </div>
-    <div class="gallery-item">
-      <img src="the high ground.jpg" alt="The High Ground">
-      <div class="item-overlay">
-        <span class="item-title">The High Ground</span>
-      </div>
-    </div>
-    
-    <!-- More items -->
-    <div class="gallery-item">
-      <img src="bananacat.jpg" alt="Banana Cat">
-      <div class="item-overlay">
-        <span class="item-title">Banana Cat</span>
-      </div>
-    </div>
-    <div class="gallery-item">
-      <img src="enderpearl.png" alt="Ender Pearl">
-      <div class="item-overlay">
-        <span class="item-title">Ender Pearl</span>
-      </div>
-    </div>
-    <div class="gallery-item">
-      <img src="https://i.ytimg.com/vi/9lNZ_Rnr7Jc/maxresdefault.jpg" alt="Bad apple">
-      <div class="item-overlay">
-        <span class="item-title">Bad Apple</span>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Improved Modal for enlarged images and videos -->
-  <div class="modal" id="gallery-modal">
-    <div class="modal-content">
-      <span class="close-modal">&times;</span>
-      <img id="modal-img" src="">
-      <video id="modal-video" controls style="display: none;"></video>
-    </div>
-  </div>
-</div>
-        
-        <!-- Location Page -->
-        <div class="page" id="location">
-          <h2>Find Our Truck</h2>
-          <p>We're always on the move! Check our schedule and locations below:</p>
-          
-          <div class="location-info">
-            <div class="location-card">
-              <h3>Weekly Schedule</h3>
-              <ul>
-                <li><strong>Monday:</strong> Central Park (11 AM - 3 PM)</li>
-                <li><strong>Tuesday:</strong> Tech District (11 AM - 7 PM)</li>
-                <li><strong>Wednesday:</strong> University Campus (10 AM - 4 PM)</li>
-                <li><strong>Thursday:</strong> Downtown Square (11 AM - 8 PM)</li>
-                <li><strong>Friday:</strong> Beach Boardwalk (12 PM - 9 PM)</li>
-                <li><strong>Saturday:</strong> Food Truck Rally (10 AM - 10 PM)</li>
-                <li><strong>Sunday:</strong> Farmers Market (9 AM - 2 PM)</li>
-              </ul>
-            </div>
-            
-            <div class="location-card">
-              <h3>Follow Our Journey</h3>
-              <p>For real-time updates on our location, follow us on social media!</p>
-              <p>We also post daily memes and secret menu items there!</p>
-              <div class="social-links">
-                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="social-link">📱</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Order Page -->
-        <div class="page" id="order">
-          <h2>Order Online</h2>
-          <p>Place your order for pickup at our truck! Please order at least 30 minutes in advance.</p>
-          
-          <form class="order-form">
-            <div class="form-group">
-              <label for="name">Your Name</label>
-              <input type="text" id="name" class="form-control" required>
-            </div>
-            
-            <div class="form-group">
-              <label for="phone">Phone Number</label>
-              <input type="tel" id="phone" class="form-control" required>
-            </div>
-            
-            <div class="form-group">
-              <label for="pickup-time">Pickup Time</label>
-              <input type="time" id="pickup-time" class="form-control" required>
-            </div>
-            
-            <div class="form-group">
-              <label for="pickup-location">Pickup Location</label>
-              <select id="pickup-location" class="form-control" required>
-                <option value="">-- Select Location --</option>
-                <option value="central-park">Central Park (Monday)</option>
-                <option value="tech-district">Tech District (Tuesday)</option>
-                <option value="university">University Campus (Wednesday)</option>
-                <option value="downtown">Downtown Square (Thursday)</option>
-                <option value="beach">Beach Boardwalk (Friday)</option>
-                <option value="food-rally">Food Truck Rally (Saturday)</option>
-                <option value="farmers-market">Farmers Market (Sunday)</option>
-              </select>
-            </div>
-            
-            <div class="form-group">
-              <label for="order-items">Your Order</label>
-              <textarea id="order-items" class="form-control" rows="5" placeholder="List the items you want to order..." required></textarea>
-            </div>
-            
-            <div class="form-group">
-              <label for="special-requests">Special Requests</label>
-              <textarea id="special-requests" class="form-control" rows="3" placeholder="Allergies, special instructions, or meme requests..."></textarea>
-            </div>
-            
-            <button type="submit" class="form-submit">Place Order</button>
-          </form>
-        </div>
-      </div>
-    </div>
-    
+    </section>
+
     <footer>
-      <p>&copy; 2025 The Meme Seller Food Truck. All rights reserved.</p>
-      <p>Warning: Our food may cause uncontrollable laughter and meme addiction.</p>
-      <div class="social-links">
-        <a href="https://github.com/XEKOyt" class="social-link">Github</a>
-      </div>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Make It Yours</h4>
+                    <p>Agence web spécialisée dans la création de sites professionnels sur mesure. Nous transformons vos idées en réalité digitale.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <p><a href="#services">Sites Portfolio</a></p>
+                    <p><a href="#services">Sites Restaurant</a></p>
+                    <p><a href="#services">Boutiques en ligne</a></p>
+                    <p><a href="#services">Sites vitrine</a></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Entreprise</h4>
+                    <p><a href="#about">À propos</a></p>
+                    <p><a href="#portfolio">Portfolio</a></p>
+                    <p><a href="#contact">Contact</a></p>
+                    <p><a href="#">Mentions légales</a></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <p><a href="#">Centre d'aide</a></p>
+                    <p><a href="#">Documentation</a></p>
+                    <p><a href="#">Maintenance</a></p>
+                    <p><a href="#">Support technique</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Make It Yours. Tous droits réservés.</p>
+            </div>
+        </div>
+        <!-- Chatbot Floating Button -->
+        <button id="chatbot-btn" style="position: fixed; bottom: 32px; right: 32px; background: #2563eb; color: white; border: none; border-radius: 50%; width: 64px; height: 64px; box-shadow: 0 4px 16px rgba(37,99,235,0.2); font-size: 2rem; z-index: 9999; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+            💬
+        </button>
+        <div id="chatbot-window" style="display:none; position: fixed; bottom: 110px; right: 32px; width: 340px; max-width: 90vw; background: #fff; border-radius: 16px; box-shadow: 0 8px 32px rgba(37,99,235,0.15); z-index: 9999; border: 1px solid #e5e7eb;">
+            <div style="background: #2563eb; color: white; padding: 1rem; border-radius: 16px 16px 0 0; font-weight: 600;">Support Chatbot</div>
+            <div id="chatbot-messages" style="padding: 1rem; height: 220px; overflow-y: auto; font-size: 0.98rem; color: #374151;"></div>
+            <form id="chatbot-form" style="display: flex; border-top: 1px solid #e5e7eb;">
+                <input id="chatbot-input" type="text" placeholder="Votre question..." style="flex:1; padding: 0.75rem; border:none; border-radius: 0 0 0 16px; font-size: 1rem; outline:none;">
+                <button type="submit" style="background: #2563eb; color: white; border:none; padding: 0 1.2rem; font-size: 1.2rem; border-radius: 0 0 16px 0; cursor:pointer;">→</button>
+            </form>
+        </div>
     </footer>
-  </div>
-  
-  <!-- Theme switch button -->
-  <div class="theme-switch" id="theme-switch">🌙</div>
-  
-  <!-- Meme toast -->
-<!-- new -->
-  <div id="meme-toast" class="toast-notification"></div>
 
-  <script src="script.js"></script>
-  <script src="scriptt.js"></script>
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
 
-  <script>
-    // Drawer toggle logic
-    const toggleBtn = document.getElementById('toggle-filters');
-    const drawer    = document.getElementById('filter-drawer');
-    const closeBtn  = document.getElementById('close-filters');
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerHeight = document.getElementById('header').offsetHeight;
+                    const targetPosition = target.offsetTop - headerHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
 
-    toggleBtn.addEventListener('click', () => {
-      const open = drawer.classList.toggle('open');
-      toggleBtn.textContent = open ? 'Hide Filters' : 'Show Filters';
-      toggleBtn.setAttribute('aria-expanded', open);
-    });
-    closeBtn.addEventListener('click', () => {
-      drawer.classList.remove('open');
-      toggleBtn.textContent = 'Show Filters';
-      toggleBtn.setAttribute('aria-expanded', false);
-    });
-  </script>
+        // Form submission désactivé (plus de formulaire sur la page)
+
+        // Professional notification system
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 16px 24px;
+                border-radius: 8px;
+                color: white;
+                font-weight: 500;
+                z-index: 10000;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                max-width: 400px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            `;
+            
+            if (type === 'success') {
+                notification.style.background = '#22c55e';
+            } else {
+                notification.style.background = '#ef4444';
+            }
+            
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 5000);
+        }
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Counter animation for stats
+        function animateCounter(element, target, duration = 500) {
+            const start = 0;
+            const increment = target / (duration / 16);
+            let current = start;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                
+                if (element.textContent.includes('%')) {
+                    element.textContent = Math.floor(current) + '%';
+                } else if (element.textContent.includes('+')) {
+                    element.textContent = Math.floor(current) + '+';
+                } else if (element.textContent.includes('/')) {
+                    element.textContent = element.textContent;
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+            }, 16);
+        }
+
+        // Animate stats when visible
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumbers = entry.target.querySelectorAll('.stat-number');
+                    statNumbers.forEach(stat => {
+                        const text = stat.textContent;
+                        const number = parseInt(text.replace(/[^\d]/g, ''));
+                        if (number) {
+                            animateCounter(stat, number);
+                        }
+                    });
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        const statsSection = document.querySelector('.stats');
+        if (statsSection) {
+            statsObserver.observe(statsSection);
+        }
+
+        // Professional hover effects
+        document.querySelectorAll('.service-card, .portfolio-item').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Parallax effect for hero section (subtle)
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            if (hero && scrolled < hero.offsetHeight) {
+                hero.style.transform = `translateY(${scrolled * 0.2}px)`;
+            }
+        });
+
+        // Loading animation
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        // Chatbot simple
+        const chatbotBtn = document.getElementById('chatbot-btn');
+        const chatbotWindow = document.getElementById('chatbot-window');
+        const chatbotForm = document.getElementById('chatbot-form');
+        const chatbotInput = document.getElementById('chatbot-input');
+        const chatbotMessages = document.getElementById('chatbot-messages');
+
+        if (chatbotBtn && chatbotWindow) {
+            chatbotBtn.addEventListener('click', () => {
+                chatbotWindow.style.display = chatbotWindow.style.display === 'none' ? 'block' : 'none';
+            });
+        }
+
+        if (chatbotForm && chatbotInput && chatbotMessages) {
+            chatbotForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const userMsg = chatbotInput.value.trim();
+                if (!userMsg) return;
+                appendChatbotMsg('Vous', userMsg);
+                chatbotInput.value = '';
+                setTimeout(() => {
+                    appendChatbotMsg('Bot', getChatbotReply(userMsg));
+                }, 600);
+            });
+        }
+
+        function appendChatbotMsg(sender, msg) {
+            const div = document.createElement('div');
+            div.innerHTML = `<strong>${sender}:</strong> ${msg}`;
+            chatbotMessages.appendChild(div);
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }
+
+        function getChatbotReply(msg) {
+            msg = msg.toLowerCase();
+            if (msg.includes('prix') || msg.includes('tarif')) return "Nos tarifs varient selon le projet. Contactez-nous pour un devis personnalisé.";
+            if (msg.includes('délai') || msg.includes('temps')) return "Le délai dépend du projet, généralement entre 2 et 6 semaines.";
+            if (msg.includes('support') || msg.includes('maintenance')) return "Nous assurons un support technique et la maintenance après livraison.";
+            if (msg.includes('contact')) return "Vous pouvez nous écrire à contact@makeityours.fr ou utiliser la section contact.";
+            if (msg.includes('site') || msg.includes('proposez')) return "Nous proposons des sites vitrine, restaurants, boutiques en ligne, applications web et refontes.";
+            if (msg.includes('devis')) return "Demandez un devis via la section contact ou par email, réponse sous 24h.";
+            return "Je n'ai pas compris, mais notre équipe vous répondra rapidement par email !";
+        }
+    </script>
 </body>
 </html>
